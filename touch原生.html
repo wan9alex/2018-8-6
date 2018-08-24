@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+  #div1{
+    background: red;
+    width:100px;height:100px;
+    position: absolute;
+    left:0;top:0;
+  }
+  </style>
+</head>
+<body>
+  <div id="div1">box</div>
+  <script>
+    //var oDiv=document.querySelector('#div1');
+    /* oDiv.onmousedown=function(ev){
+      var disX=ev.clientX-this.offsetLeft;
+      var disY=ev.clientY-this.offsetTop;
+      document.onmousemove=function(ev){
+        oDiv.style.left=ev.clientX-disX+'px';
+        oDiv.style.top=ev.clientY-disY+'px';
+      }
+      document.onmouseup=function(){
+        document.onmousemove=document.onmouseup=null;
+      };
+      return false;
+    } */
+
+    document.addEventListener('DOMContentLoaded',function(){
+      var oDiv=document.querySelector('#div1');
+      oDiv.addEventListener('touchstart',function(ev){
+        // console.log(ev);
+        var disX=ev.targetTouches[0].clientX-this.offsetLeft;
+        var disY=ev.targetTouches[0].clientY-this.offsetTop;
+        document.addEventListener('touchmove',fnMove,false);
+        function fnMove(ev){
+          oDiv.style.left=ev.targetTouches[0].clientX-disX+'px';
+          oDiv.style.top=ev.targetTouches[0].clientY-disY+'px';
+        }
+        document.addEventListener('touchend',fnEnd,false);
+        function fnEnd(){
+          document.removeEventListener('touchmove',fnMove);
+          document.removeEventListener('touchend',fnEnd);
+        }
+        ev.preventDefault();
+      },false);
+    },false);
+
+  </script>
+</body>
+</html>
